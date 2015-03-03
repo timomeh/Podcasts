@@ -1,0 +1,187 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/white"
+            android:fillViewport="true"
+            android:layout_marginTop="56dp"
+            android:overScrollMode="never"
+            tools:context="de.timomeh.podcasts.ui.fragments.EpisodeDetailsFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:background="@color/dark_grey">
+
+            <ImageView
+                android:id="@+id/epi_image"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"/>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/epi_image"
+                android:background="#C81a1a1a"
+                android:paddingBottom="36dp"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:paddingTop="16dp">
+
+                <TextView
+                    android:id="@+id/epi_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Episode"
+                    android:textColor="@android:color/white"
+                    android:textSize="20sp"
+                    android:textStyle="bold"/>
+
+            </FrameLayout>
+
+        </RelativeLayout>
+
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/epi_action"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|top"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="-36dp"
+            app:fab_size="normal"
+            app:fab_icon="@drawable/ic_play_white_24dp"
+            />
+
+
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_clock_grey600_24dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="16dp" />
+
+                <TextView
+                    android:id="@+id/epi_duration"
+                    android:layout_height="wrap_content"
+                    android:layout_width="0dp"
+                    android:textColor="@color/text_black"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="32dp"
+                    android:textSize="16sp"
+                    android:paddingTop="20dp"
+                    android:paddingBottom="20dp"
+                    android:paddingRight="16dp"
+                    android:text="37 Min. 50 Sek."
+                    android:background="@drawable/table_row_divider"/>
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:id="@+id/epi_row_download">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_download_grey600_24dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="16dp" />
+
+                <TextView
+                    android:id="@+id/epi_download"
+                    android:layout_height="wrap_content"
+                    android:layout_width="0dp"
+                    android:textColor="@color/text_black"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="32dp"
+                    android:textSize="16sp"
+                    android:paddingTop="20dp"
+                    android:paddingBottom="20dp"
+                    android:paddingRight="16dp"
+                    android:text="Download (37MB)"
+                    android:background="@drawable/table_row_divider"/>
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_web_grey600_24dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="16dp" />
+
+                <TextView
+                    android:id="@+id/epi_web"
+                    android:layout_height="wrap_content"
+                    android:layout_width="0dp"
+                    android:textColor="@color/text_black"
+                    android:textSize="16sp"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="32dp"
+                    android:paddingTop="20dp"
+                    android:paddingBottom="20dp"
+                    android:paddingRight="16dp"
+                    android:text="http://www.test.de/"
+                    android:background="@drawable/table_row_divider"/>
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_comment_text_outline_grey600_24dp"
+                    android:layout_gravity="top"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginLeft="16dp" />
+
+                <TextView
+                    android:id="@+id/epi_summary"
+                    android:layout_height="wrap_content"
+                    android:layout_width="0dp"
+                    android:textColor="@color/text_black"
+                    android:textSize="16sp"
+                    android:lineSpacingMultiplier="1.1"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="32dp"
+                    android:paddingTop="20dp"
+                    android:paddingBottom="20dp"
+                    android:paddingRight="16dp"/>
+
+            </TableRow>
+
+        </TableLayout>
+
+
+    </LinearLayout>
+
+
+</ScrollView>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="AppTheme" parent="AppTheme.Base" />
+
+    <!-- Base application theme. -->
+    <style name="AppTheme.Base" parent="Theme.AppCompat">
+        <!-- hide Action Bar, will be replaced with Toolbar -->
+        <item name="android:windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
+
+        <!-- colors -->
+        <item name="colorPrimary">@color/dark_grey</item>
+        <item name="colorPrimaryDark">@color/dark_grey</item>
+
+        <!-- search -->
+        <item name="searchViewStyle">@style/SearchView</item>
+    </style>
+
+    <style name="SearchView" parent="Widget.AppCompat.SearchView">
+        <item name="searchIcon">@drawable/ic_menu_search</item>
+        <item name="closeIcon">@drawable/ic_menu_close</item>
+    </style>
+
+    <style name="AppTheme.TranslucentBar">
+
+    </style>
+
+
+
+</resources>
