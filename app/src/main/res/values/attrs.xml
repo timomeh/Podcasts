@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="FixedAspectLayout">
+        <attr name="aspectRatio" format="float"/>
+    </declare-styleable>
+
+    <declare-styleable name="CircleProgressBar">
+        <attr name="cmin" format="integer" />
+        <attr name="cmax" format="integer" />
+        <attr name="cprogress" format="integer" />
+        <attr name="cprogressBarColor" format="color" />
+        <attr name="cprogressBarThickness" format="dimension" />
+    </declare-styleable>
+
+</resources>

@@ -1,0 +1,33 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/white"
+                tools:context="de.timomeh.podcasts.ui.fragments.EpisodeListFragment">
+
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/pod_details_recycler"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/white"
+        android:scrollbars="vertical"/>
+
+
+    <View
+        android:id="@+id/pod_details_shadow"
+        android:clickable="false"
+        android:layout_width="match_parent"
+        android:layout_height="125dp"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/toolbar_fade_gradient"/>
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/pod_details_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:background="@android:color/transparent"
+        android:minHeight="?attr/actionBarSize"/>
+
+</RelativeLayout>
