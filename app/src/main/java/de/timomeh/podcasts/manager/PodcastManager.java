@@ -159,13 +159,32 @@ public class PodcastManager {
                 mFetchedPodcast = podcast;
                 mFetchedEpisodes = episodes;
 
-                Log.d("PodcastManager", mFetchedPodcast.getTitle() + " has last modified on " + lastModified[0]);
-
                 mFetchedPodcast.setEtag(etag[0]);
                 mFetchedPodcast.setLastmodified(lastModified[0]);
 
-                if (update) updatePodcast();
-                else savePodcast();
+                // onBuild returns podcast = null if an error occured.
+                // Since we've already set some Variables in mFetchedPodcast, we just check if there is a feed url.
+                // If there is none, there is no Podcast either.
+
+                if (mFetchedPodcast.getFeedurl() == null || mFetchedPodcast.getFeedurl().equals("")) {
+                    if (update) {
+                        Realm realm = Realm.getInstance(mContext);
+
+                        // Find Podcast to Update in Database and set it as error'ed
+                        Podcast uPod = realm.where(Podcast.class).equalTo("uuid", mPodcast.getUuid()).findFirst();
+                        realm.beginTransaction();
+                        uPod.setError(true);
+                        realm.commitTransaction();
+
+                        showToast("Can't update " + uPod.getTitle() + ", Feed has invalid format.");
+                    } else {
+                        showToast("Can't subscribe to Podcast, Feed has invalid format.");
+                    }
+                }
+                else if (update)
+                    updatePodcast();
+                else
+                    savePodcast();
             }
         };
         request(false, responseListener, buildListener);

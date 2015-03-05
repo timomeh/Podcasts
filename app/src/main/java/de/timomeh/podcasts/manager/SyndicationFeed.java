@@ -103,7 +103,7 @@ public class SyndicationFeed {
 
     /**
      * Make async GET Request to URL.
-     * @param headers
+     * @param headers Request Headers
      */
     public void get(Headers headers) {
         request(headers, false);
@@ -137,8 +137,11 @@ public class SyndicationFeed {
                     if (!onlyHead) {
                         mInputStream = response.body().byteStream();
                         Map<String, Object> resultMap = build();
-                        Podcast podcast = (Podcast) resultMap.get(RESULT_PODCAST);
-                        List<Episode> episodes = (List<Episode>) resultMap.get(RESULT_EPISODES);
+                        Podcast podcast = null;
+                        List<Episode> episodes = null;
+
+                        if (resultMap.get(RESULT_PODCAST) != null) podcast = (Podcast) resultMap.get(RESULT_PODCAST);
+                        if (resultMap.get(RESULT_EPISODES) != null) episodes = (List<Episode>) resultMap.get(RESULT_EPISODES);
                         mOnBuildListener.onBuild(podcast, episodes);
                     }
                 } else {
@@ -198,7 +201,7 @@ public class SyndicationFeed {
         channel.getChild(ITUNES_DTD, "image").setStartElementListener(new StartElementListener() {
             @Override
             public void start(Attributes attributes) {
-                podcast.setImageurl(attributes.getValue("href"));
+                if (attributes.getValue("href") != null) podcast.setImageurl(attributes.getValue("href"));
             }
         });
         channel.getChild("link").setEndTextElementListener(new EndTextElementListener() {
@@ -304,7 +307,7 @@ public class SyndicationFeed {
         item.getChild(ITUNES_DTD, "image").setStartElementListener(new StartElementListener() {
             @Override
             public void start(Attributes attributes) {
-                episode.setImageurl(attributes.getValue("href"));
+                if (attributes.getValue("href") != null) episode.setImageurl(attributes.getValue("href"));
             }
         });
         item.getChild("link").setEndTextElementListener(new EndTextElementListener() {
@@ -316,9 +319,9 @@ public class SyndicationFeed {
         item.getChild("enclosure").setStartElementListener(new StartElementListener() {
             @Override
             public void start(Attributes attributes) {
-                episode.setFileurl(attributes.getValue("url"));
-                if(attributes.getValue("length") != null) episode.setFilesize(Long.parseLong(attributes.getValue("length")));
-                episode.setFiletype(attributes.getValue("type"));
+                if (attributes.getValue("url") != null) episode.setFileurl(attributes.getValue("url"));
+                if (attributes.getValue("length") != null) episode.setFilesize(Long.parseLong(attributes.getValue("length")));
+                if (attributes.getValue("type") != null) episode.setFiletype(attributes.getValue("type"));
             }
         });
         item.getChild(ITUNES_DTD, "duration").setEndTextElementListener(new EndTextElementListener() {
@@ -357,14 +360,12 @@ public class SyndicationFeed {
         try {
             Xml.parse(mInputStream, Xml.Encoding.UTF_8, root.getContentHandler());
             result = new HashMap<>();
-            Log.d("Feed", "Title: " + podcast.getTitle());
             result.put(RESULT_PODCAST, podcast);
             result.put(RESULT_EPISODES, episodes);
         } catch (Exception e) {
-            Log.e("Feed", "Exception: ", e);
-            // Intentionally left blank
+            Log.e(TAG, "Exception: ", e);
+            // Intentionally no exception handling
         }
-
 
         return result;
     }

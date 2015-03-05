@@ -28,6 +28,7 @@ public class Podcast extends RealmObject {
     private String summary;
     private boolean explicit;
     private boolean uptodate;
+    private boolean error;
 
     // One-to-many Relationship (Podcast to Episodes)
     private RealmList<Episode> episodes;
@@ -41,6 +42,8 @@ public class Podcast extends RealmObject {
         this.subtitle = "";
         this.summary = "";
         this.explicit = false;
+        this.uptodate = false;
+        this.error = false;
     }
 
     public String getUuid() {
@@ -145,5 +148,13 @@ public class Podcast extends RealmObject {
 
     public void setUptodate(boolean uptodate) {
         this.uptodate = uptodate;
+    }
+
+    public boolean isError() {
+        return error;
+    }
+
+    public void setError(boolean error) {
+        this.error = error;
     }
 }
