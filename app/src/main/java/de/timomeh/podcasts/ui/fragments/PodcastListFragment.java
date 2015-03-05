@@ -108,7 +108,6 @@ public class PodcastListFragment extends Fragment implements PodcastAdapter.Podc
         MenuItem searchItem = menu.findItem(R.id.action_search);
         final MenuItem addItem = menu.findItem(R.id.action_add);
 
-        SearchManager searchManager = (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
         SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -118,7 +117,7 @@ public class PodcastListFragment extends Fragment implements PodcastAdapter.Podc
 
             @Override
             public boolean onQueryTextChange(String s) {
-                mPodcasts = mRealm.where(Podcast.class).contains("title", s).findAllSorted("title");
+                mPodcasts = mRealm.where(Podcast.class).contains("title", s, false).findAllSorted("title");
                 ((PodcastAdapter) mRecyclerView.getAdapter()).refill(mPodcasts);
                 return false;
             }
