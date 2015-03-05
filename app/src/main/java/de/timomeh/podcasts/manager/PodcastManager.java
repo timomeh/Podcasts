@@ -98,6 +98,7 @@ public class PodcastManager {
             }
             Headers headers = headersBuilder.build();
             SyndicationFeed syndicationFeed = new SyndicationFeed(feedUrl);
+            syndicationFeed.setLimit(mLimit).setSkip(mSkip);
             syndicationFeed.setOnResponseListener(responseListener);
             if (buildListener != null) syndicationFeed.setOnBuildListener(buildListener);
             if (onlyHead)
@@ -240,7 +241,7 @@ public class PodcastManager {
     private void updatePodcast() {
         Realm realm = Realm.getInstance(mContext);
         Podcast realmPodcast = realm.where(Podcast.class).equalTo("uuid", mPodcast.getUuid()).findFirst();
-        RealmList<Episode> oldEpisodes = realmPodcast.getEpisodes();
+        RealmList<Episode> currentEpisodes = realmPodcast.getEpisodes();
 
         realm.beginTransaction();
 
@@ -256,6 +257,7 @@ public class PodcastManager {
         realmPodcast.setEtag(mFetchedPodcast.getEtag());
         realmPodcast.setLastmodified(mFetchedPodcast.getLastmodified());
         realmPodcast.setUptodate(true);
+        realmPodcast.setError(false);
 
         // Update each Episode
         for (int i = 0; i < mFetchedEpisodes.size(); i++) {
@@ -264,18 +266,18 @@ public class PodcastManager {
 
             // Check if Episode is already in database. If it is, update it. Just in case.
             int k = 0;
-            for (Episode old : oldEpisodes) {
-                if (fresh.getGuid().equals(old.getGuid())) {
-                    old.setTitle(fresh.getTitle());
-                    old.setImageurl(fresh.getImageurl());
-                    old.setFileurl(fresh.getFileurl());
-                    old.setFileuri(fresh.getFileuri());
-                    old.setFilesize(fresh.getFilesize());
-                    old.setFiletype(fresh.getFiletype());
-                    old.setDuration(fresh.getDuration());
-                    old.setSummary(fresh.getSummary());
-                    old.setExplicit(fresh.isExplicit());
-                    old.setUpdated(true);
+            for (Episode current : currentEpisodes) {
+                if (fresh.getGuid().equals(current.getGuid())) {
+                    current.setTitle(fresh.getTitle());
+                    current.setImageurl(fresh.getImageurl());
+                    current.setFileurl(fresh.getFileurl());
+                    current.setFileuri(fresh.getFileuri());
+                    current.setFilesize(fresh.getFilesize());
+                    current.setFiletype(fresh.getFiletype());
+                    current.setDuration(fresh.getDuration());
+                    current.setSummary(fresh.getSummary());
+                    current.setExplicit(fresh.isExplicit());
+                    current.setUpdated(true);
                     fresh.setUpdated(true);
                 }
                 k++;
@@ -291,11 +293,11 @@ public class PodcastManager {
         }
 
         // Check if "old" Episode was updated. If not, it's not anymore in the feed. Delete it.
-        for (Episode old : oldEpisodes) {
-            if (!old.isUpdated()) {
-                old.removeFromRealm();
+        for (Episode current : currentEpisodes) {
+            if (!current.isUpdated()) {
+                current.removeFromRealm();
             }
-            old.setUpdated(false);
+            current.setUpdated(false);
         }
 
         // Yay!
