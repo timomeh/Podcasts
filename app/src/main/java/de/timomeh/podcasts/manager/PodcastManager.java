@@ -163,7 +163,7 @@ public class PodcastManager {
                 mFetchedPodcast.setEtag(etag[0]);
                 mFetchedPodcast.setLastmodified(lastModified[0]);
 
-                // onBuild returns podcast = null if an error occured.
+                // onBuild returns podcast = null if an error occurred.
                 // Since we've already set some Variables in mFetchedPodcast, we just check if there is a feed url.
                 // If there is none, there is no Podcast either.
 

@@ -242,6 +242,7 @@ public class SyndicationFeed {
             @Override
             public void start(Attributes attributes) {
                 // Reset episode data
+                episode.setGuid("");
                 episode.setTitle("");
                 episode.setImageurl("");
                 episode.setWeburl("");
@@ -273,9 +274,10 @@ public class SyndicationFeed {
             public void end() {
                 if (!ignoreCurrentItem[0]) {
                     // Use Fileurl as Guid when not provided
-                    if (episode.getGuid() == null) {
+                    if (episode.getGuid() == null || episode.getGuid().equals("")) {
                         episode.setGuid(episode.getFileurl());
                     }
+                    Log.d(TAG, "Guid: " + episode.getGuid());
                     Episode clone = new Episode();
                     clone.setGuid(episode.getGuid());
                     clone.setTitle(episode.getTitle());
