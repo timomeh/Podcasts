@@ -236,6 +236,8 @@ public class SyndicationFeed {
         });
 
 
+        final String[] description = {""};
+
         // Parse Item Data
         Element item = channel.getChild("item");
         item.setStartElementListener(new StartElementListener() {
@@ -248,11 +250,13 @@ public class SyndicationFeed {
                 episode.setWeburl("");
                 episode.setFileurl("");
                 episode.setFileuri("");
+                episode.setFiletype("");
                 episode.setFilesize(0);
                 episode.setDuration(0);
                 episode.setSummary("");
                 episode.setExplicit(false);
                 episode.setPubdate(null);
+                description[0] = "";
 
                 // Skip
                 if (itemCount[0] < mSkip) {
@@ -276,6 +280,9 @@ public class SyndicationFeed {
                     // Use Fileurl as Guid when not provided
                     if (episode.getGuid() == null || episode.getGuid().equals("")) {
                         episode.setGuid(episode.getFileurl());
+                    }
+                    if (episode.getSummary().equals("") && !description[0].equals("")) {
+                        episode.setSummary(description[0]);
                     }
                     Episode clone = new Episode();
                     clone.setGuid(episode.getGuid());
@@ -308,7 +315,8 @@ public class SyndicationFeed {
         item.getChild(ITUNES_DTD, "image").setStartElementListener(new StartElementListener() {
             @Override
             public void start(Attributes attributes) {
-                if (attributes.getValue("href") != null) episode.setImageurl(attributes.getValue("href"));
+                if (attributes.getValue("href") != null)
+                    episode.setImageurl(attributes.getValue("href"));
             }
         });
         item.getChild("link").setEndTextElementListener(new EndTextElementListener() {
@@ -320,9 +328,12 @@ public class SyndicationFeed {
         item.getChild("enclosure").setStartElementListener(new StartElementListener() {
             @Override
             public void start(Attributes attributes) {
-                if (attributes.getValue("url") != null) episode.setFileurl(attributes.getValue("url"));
-                if (attributes.getValue("length") != null) episode.setFilesize(Long.parseLong(attributes.getValue("length")));
-                if (attributes.getValue("type") != null) episode.setFiletype(attributes.getValue("type"));
+                if (attributes.getValue("url") != null)
+                    episode.setFileurl(attributes.getValue("url"));
+                if (attributes.getValue("length") != null)
+                    episode.setFilesize(Long.parseLong(attributes.getValue("length")));
+                if (attributes.getValue("type") != null)
+                    episode.setFiletype(attributes.getValue("type"));
             }
         });
         item.getChild(ITUNES_DTD, "duration").setEndTextElementListener(new EndTextElementListener() {
@@ -335,6 +346,12 @@ public class SyndicationFeed {
             @Override
             public void end(String body) {
                 episode.setSummary(body);
+            }
+        });
+        item.getChild("description").setEndTextElementListener(new EndTextElementListener() {
+            @Override
+            public void end(String body) {
+                description[0] = body;
             }
         });
         item.getChild(ITUNES_DTD, "explicit").setEndTextElementListener(new EndTextElementListener() {

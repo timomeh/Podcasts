@@ -192,6 +192,13 @@ public class PodcastManager {
     }
 
     public void save() {
+        Realm realm = Realm.getInstance(mContext);
+        long check = realm.where(Podcast.class).equalTo("feedurl", mPodcast.getFeedurl()).count();
+        if (check > 0) {
+            showToast("Already subscribed to that Podcast.");
+            return;
+        }
+        realm.close();
         handle(false);
     }
 
