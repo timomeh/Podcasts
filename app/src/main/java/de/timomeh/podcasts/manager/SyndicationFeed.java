@@ -277,7 +277,6 @@ public class SyndicationFeed {
                     if (episode.getGuid() == null || episode.getGuid().equals("")) {
                         episode.setGuid(episode.getFileurl());
                     }
-                    Log.d(TAG, "Guid: " + episode.getGuid());
                     Episode clone = new Episode();
                     clone.setGuid(episode.getGuid());
                     clone.setTitle(episode.getTitle());
